@@ -1,0 +1,12 @@
+{% extends 'posts/base.html' %}
+
+{% block content %}
+<div class="mx-auto" style="width: 300px;">
+<h1>{{ post.title }}<br>
+    author: {{ post.author}}</h1>
+
+    {{ post.body }}
+<br>
+<a href="{% url 'home' %}" class="btn btn-primary">Back to home page</a>
+    </div>
+{% endblock %}
