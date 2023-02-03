@@ -1,10 +1,14 @@
 {% extends 'posts/base.html' %}
 
 {% block content %}
+{% if user.is_authenticated %}
   <div class="mb-3">
     <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn btn-secondary">Post</button>
 </div>
+{% else %}
+<a href="{% url 'login' %}">Login</a>
+{% endif %}
 {% endblock %}

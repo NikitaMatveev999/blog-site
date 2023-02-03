@@ -19,7 +19,10 @@ class PostCreateView(CreateView):
     model = Post
     form_class = PostForm
     template_name = 'posts/add_post.html'
-#   fields = '__all__'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 class PostDeleteView(DeleteView):

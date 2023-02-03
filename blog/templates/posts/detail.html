@@ -2,11 +2,17 @@
 
 {% block content %}
 <div class="mx-auto" style="width: 300px;">
-<h1>{{ post.title }}<br>
-    author: {{ post.author}}</h1>
+<h1>{{ post.title }}<br><br>
+    author: {{ post.author }}</h1>
+    {% if user.is_authenticated %}
+        {% if user.id == post.author.id %}
+            <a href="{% url 'update_post' post.id %}" class="btn btn-primary">Update post</a>
+            <a href="{% url 'delete_post' post.id %}" class="btn btn-primary">Delete post</a><br>
+        {% endif %}
+    {% endif %}
 
     {{ post.body }}
-<br>
+<br><br>
 <a href="{% url 'home' %}" class="btn btn-primary">Back to home page</a>
     </div>
 {% endblock %}
