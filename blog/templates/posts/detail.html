@@ -15,4 +15,17 @@
 <br><br>
 <a href="{% url 'home' %}" class="btn btn-primary">Back to home page</a>
     </div>
+<br><br>
+<form action="{% url 'like_post' post.pk %}" method="post">
+      {% csrf_token %}
+    {% if user.is_authenticated%}
+    {% if liked %}
+<button type="submit", name="post_id", value="{{ post.id }}">Unlike</button>
+    {% else %}
+    <button type="submit", name="post_id", value="{{ post.id }}">Like</button>
+    {% endif %}
+    {% endif %}
+</form>
+<br>
+{{ total_likes }}
 {% endblock %}
