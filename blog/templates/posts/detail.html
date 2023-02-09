@@ -26,6 +26,16 @@
     {% endif %}
     {% endif %}
 </form>
+<form action="{% url 'favourite_post' post.pk %}" method="post">
+      {% csrf_token %}
+    {% if user.is_authenticated%}
+    {% if favourite %}
+<button type="submit", name="post_id", value="{{ post.id }}">Remove from favourite</button>
+    {% else %}
+    <button type="submit", name="post_id", value="{{ post.id }}">Add to favorite</button>
+    {% endif %}
+    {% endif %}
+</form>
 <br>
 {{ total_likes }}
 {% endblock %}

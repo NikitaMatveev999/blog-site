@@ -4,6 +4,8 @@ from .models import Post
 from .forms import PostForm
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
+from django.db.models import Q
+
 
 def like_view(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
@@ -12,6 +14,27 @@ def like_view(request, pk):
     else:
         post.likes.add(request.user)
     return HttpResponseRedirect(reverse('detail', args=[str(pk)]))
+
+
+def favourite_view(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    if post.favourite.filter(id=request.user.id).exists():
+        post.favourite.remove(request.user)
+    else:
+        post.favourite.add(request.user)
+    return HttpResponseRedirect(reverse('detail', args=[str(pk)]))
+
+
+class SearchResultsView(ListView):
+    model = Post
+    template_name = "posts/search_results.html"
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        find_posts = Post.objects.filter(
+            Q(body__icontains=query) | Q(title__icontains=query)
+        )
+        return find_posts
 
 
 class PostListView(ListView):
@@ -33,8 +56,13 @@ class PostDetailView(DetailView):
         if stuff.likes.filter(id=self.request.user.id).exists():
             liked = True
 
+        favourite_post = False
+        if stuff.favourite.filter(id=self.request.user.id).exists():
+            favourite_post = True
+
         context['total_likes'] = total_likes
         context['liked'] = liked
+        context['favourite'] = favourite_post
         return context
 
 

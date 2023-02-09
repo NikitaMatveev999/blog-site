@@ -17,6 +17,7 @@ class Post(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     likes = models.ManyToManyField(User, related_name='post_likes')
+    favourite = models.ManyToManyField(User, related_name='favourite_post')
 
     def total_likes(self):
         return self.likes.count()
