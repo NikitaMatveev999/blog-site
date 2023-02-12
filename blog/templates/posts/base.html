@@ -25,13 +25,11 @@
             Categories
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Действие</a></li>
+            {% for category in categories %}
+            <li><a class="dropdown-item" href="{% url 'category' category.pk %}">{{ category.name }}</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Другое действие</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
+            {% endfor %}
           </ul>
-        </li>
         {% if user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'add_post' %}">Add post</a>

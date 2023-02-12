@@ -1,8 +1,8 @@
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
-from .models import Post
+from .models import Post, Category
 from .forms import PostForm
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 
@@ -37,10 +37,23 @@ class SearchResultsView(ListView):
         return find_posts
 
 
-class PostListView(ListView):
+class HomeView(ListView):
     model = Post
     template_name = 'posts/index.html'
     ordering = ['-date']
+
+    def get_context_data(self, **kwargs):
+        categories = Category.objects.all()
+        context = super(HomeView, self).get_context_data()
+        context['categories'] = categories
+        return context
+
+
+def category_view(request, cat_id):
+    posts = Post.objects.filter(category_id=cat_id)
+    categories = Category.objects.all()
+    return render(request, 'posts/categories.html', {'posts': posts,
+                                                     'categories': categories})
 
 
 class PostDetailView(DetailView):
@@ -51,6 +64,7 @@ class PostDetailView(DetailView):
         context = super(PostDetailView, self).get_context_data()
         stuff = get_object_or_404(Post, id=self.kwargs['pk'])
         total_likes = stuff.total_likes()
+        categories = Category.objects.all()
 
         liked = False
         if stuff.likes.filter(id=self.request.user.id).exists():
@@ -63,6 +77,7 @@ class PostDetailView(DetailView):
         context['total_likes'] = total_likes
         context['liked'] = liked
         context['favourite'] = favourite_post
+        context['categories'] = categories
         return context
 
 
@@ -86,7 +101,3 @@ class PostUpdateView(UpdateView):
     model = Post
     template_name = 'posts/update_post.html'
     fields = ['body']
-
-
-
-

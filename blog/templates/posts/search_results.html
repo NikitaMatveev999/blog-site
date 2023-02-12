@@ -3,8 +3,18 @@
 {% block content %}
 
 {% for object in object_list %}
-
-{{ object.title }}<br>
+<div class="col d-flex justify-content-center">
+<div class="card" style="width: 30rem; border-radius: 4%; background-color: #d8bfd8">
+<div class="mx-auto" style="width: 250px;">
+  <div class="card-body">
+    <h5 class="card-title">{{ object.title }}</h5>
+    <p class="card-text">{{ object.body|slice:":40" }}...</p>
+    <a href="{% url 'detail' object.pk %}" class="btn btn-primary">Read post</a>
+  </div>
+</div>
+  </div>
+</div>
+<br>
 
 {% endfor %}
 
