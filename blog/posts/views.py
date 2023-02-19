@@ -1,13 +1,28 @@
 from django.urls import reverse_lazy, reverse
+from django.views import generic
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .models import Post, Category
-from .forms import PostForm
-from django.shortcuts import get_object_or_404, render
+from .forms import PostForm, SignUpForm
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect
 from django.db.models import Q
+from rest_framework import generics
+from .serializers import PostSerializer
 
 
-def like_view(request, pk):
+class PostAPIView(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+
+def favourite_list(request):
+    user = request.user
+    favourite_posts = user.favourite.all()
+    context = {'favourite_posts': favourite_posts}
+    return render(request, 'posts/favourite.html', context)
+
+
+def add_like_view(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
     if post.likes.filter(id=request.user.id).exists():
         post.likes.remove(request.user)
@@ -16,7 +31,7 @@ def like_view(request, pk):
     return HttpResponseRedirect(reverse('detail', args=[str(pk)]))
 
 
-def favourite_view(request, pk):
+def add_favourite_view(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
     if post.favourite.filter(id=request.user.id).exists():
         post.favourite.remove(request.user)
@@ -38,6 +53,7 @@ class SearchResultsView(ListView):
 
 
 class HomeView(ListView):
+    paginate_by = 3
     model = Post
     template_name = 'posts/index.html'
     ordering = ['-date']
@@ -101,3 +117,9 @@ class PostUpdateView(UpdateView):
     model = Post
     template_name = 'posts/update_post.html'
     fields = ['body']
+
+
+class RegistrationView(generic.CreateView):
+    form_class = SignUpForm
+    template_name = 'registration/registration.html'
+    success_url = 'login'
