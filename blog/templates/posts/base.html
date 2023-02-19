@@ -48,6 +48,9 @@
           <a class="nav-link" href="{% url 'register' %}">Registration</a>
         </li>
         {% endif %}
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'contact_form' %}">Contact us</a>
+        </li>
       </ul>
       <form class="d-flex" action="{% url 'search_results' %}">
         <input name="q" type="search" placeholder="Search" aria-label="Search">
