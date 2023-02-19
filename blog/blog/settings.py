@@ -146,6 +146,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'matveevnikita999777@gmail.com'
-EMAIL_HOST_PASSWORD = 'zjequatsylozyujc'
+EMAIL_HOST_PASSWORD = os.getenv('HOST_PASSWORD')
 
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
