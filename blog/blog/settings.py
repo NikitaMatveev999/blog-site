@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'users',
     'contact',
     'rest_framework',
+    'social_django'
 
 ]
 
@@ -71,6 +72,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -88,6 +91,11 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 
 # Password validation
@@ -149,3 +157,7 @@ EMAIL_HOST_USER = 'matveevnikita999777@gmail.com'
 EMAIL_HOST_PASSWORD = os.getenv('HOST_PASSWORD')
 
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+SOCIAL_AUTH_GITHUB_KEY = 'GITHUB_KEY'
+SOCIAL_AUTH_GITHUB_SECRET = 'GITHUB_SECRET'
