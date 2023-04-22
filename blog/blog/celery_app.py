@@ -5,7 +5,7 @@ from celery import Celery
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'blog.settings')
 
-app = Celery('blog')
+app = Celery('blog', broker="redis://redis:6379")
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.conf.broker_url = settings.CELERY_BROKER_URL
 app.autodiscover_tasks()
