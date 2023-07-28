@@ -5,7 +5,7 @@ from .models import Post, Category
 from .forms import PostForm, SignUpForm
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from rest_framework import generics
 from .serializers import PostSerializer
 
@@ -32,7 +32,7 @@ def add_like_view(request, pk):
 
 
 def add_favourite_view(request, pk):
-    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    post = get_object_or_404(Post, id=pk)
     if post.favourite.filter(id=request.user.id).exists():
         post.favourite.remove(request.user)
     else:
@@ -81,15 +81,8 @@ class PostDetailView(DetailView):
         stuff = get_object_or_404(Post, id=self.kwargs['pk'])
         total_likes = stuff.total_likes()
         categories = Category.objects.all()
-
-        liked = False
-        if stuff.likes.filter(id=self.request.user.id).exists():
-            liked = True
-
-        favourite_post = False
-        if stuff.favourite.filter(id=self.request.user.id).exists():
-            favourite_post = True
-
+        liked = stuff.likes.filter(id=self.request.user.id).exists()
+        favourite_post = stuff.favourite.filter(id=self.request.user.id).exists()
         context['total_likes'] = total_likes
         context['liked'] = liked
         context['favourite'] = favourite_post
