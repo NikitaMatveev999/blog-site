@@ -3,9 +3,9 @@ from django.views import generic, View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .models import Post, Category
 from .forms import PostForm, SignUpForm
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
-from django.db.models import Q, Prefetch
+from django.db.models import Q
 from rest_framework import generics
 from .serializers import PostSerializer
 
@@ -22,11 +22,6 @@ class FavouriteListView(ListView):
 
     def get_queryset(self):
         return self.request.user.favourite.all()
-# def favourite_list(request):
-#     user = request.user
-#     favourite_posts = user.favourite.all()
-#     context = {'favourite_posts': favourite_posts}
-#     return render(request, 'posts/favourite.html', context)
 
 
 class AddLikeView(View):
@@ -77,11 +72,19 @@ class HomeView(ListView):
         return context
 
 
-def category_view(request, cat_id):
-    posts = Post.objects.filter(category_id=cat_id)
-    categories = Category.objects.all()
-    return render(request, 'posts/categories.html', {'posts': posts,
-                                                     'categories': categories})
+class CategoryView(ListView):
+    model = Post
+    template_name = 'posts/categories.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        cat_id = self.kwargs['cat_id']
+        return Post.objects.filter(category_id=cat_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
 
 
 class PostDetailView(DetailView):
