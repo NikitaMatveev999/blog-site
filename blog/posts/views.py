@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy, reverse
-from django.views import generic
+from django.views import generic, View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .models import Post, Category
 from .forms import PostForm, SignUpForm
@@ -31,13 +31,14 @@ def add_like_view(request, pk):
     return HttpResponseRedirect(reverse('detail', args=[str(pk)]))
 
 
-def add_favourite_view(request, pk):
-    post = get_object_or_404(Post, id=pk)
-    if post.favourite.filter(id=request.user.id).exists():
-        post.favourite.remove(request.user)
-    else:
-        post.favourite.add(request.user)
-    return HttpResponseRedirect(reverse('detail', args=[str(pk)]))
+class AddFavouriteView(View):
+    def post(self, request, pk):
+        post = get_object_or_404(Post, id=pk)
+        if post.favourite.filter(id=request.user.id).exists():
+            post.favourite.remove(request.user)
+        else:
+            post.favourite.add(request.user)
+        return HttpResponseRedirect(reverse('detail', args=[str(pk)]))
 
 
 class SearchResultsView(ListView):
