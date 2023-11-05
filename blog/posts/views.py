@@ -22,13 +22,24 @@ def favourite_list(request):
     return render(request, 'posts/favourite.html', context)
 
 
-def add_like_view(request, pk):
-    post = get_object_or_404(Post, id=request.POST.get('post_id'))
-    if post.likes.filter(id=request.user.id).exists():
-        post.likes.remove(request.user)
-    else:
-        post.likes.add(request.user)
-    return HttpResponseRedirect(reverse('detail', args=[str(pk)]))
+class AddLikeView(View):
+    def post(self, request, pk):
+        post_id = request.POST.get('post_id')
+        post = get_object_or_404(Post, id=post_id)
+
+        if post.likes.filter(id=request.user.id).exists():
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+
+        return HttpResponseRedirect(reverse('detail', args=[str(pk)]))
+# def add_like_view(request, pk):
+#     post = get_object_or_404(Post, id=request.POST.get('post_id'))
+#     if post.likes.filter(id=request.user.id).exists():
+#         post.likes.remove(request.user)
+#     else:
+#         post.likes.add(request.user)
+#     return HttpResponseRedirect(reverse('detail', args=[str(pk)]))
 
 
 class AddFavouriteView(View):
