@@ -1,6 +1,6 @@
 from django.urls import path, include
 from .views import HomeView, PostDetailView, PostCreateView, PostDeleteView, PostUpdateView, \
-    SearchResultsView, category_view, favourite_list, PostAPIView, RegistrationView, AddFavouriteView, AddLikeView
+    SearchResultsView, category_view, FavouriteListView, PostAPIView, RegistrationView, AddFavouriteView, AddLikeView
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -13,7 +13,7 @@ urlpatterns = [
     path('favourite/<int:pk>', AddFavouriteView.as_view(), name='favourite_post'),
     path('search/', SearchResultsView.as_view(), name='search_results'),
     path('category/<str:cat_id>/', category_view, name='category'),
-    path('favourite/', favourite_list, name='favourite_list'),
+    path('favourite/', FavouriteListView.as_view(), name='favourite_list'),
     path('api/v1/postlist/', PostAPIView.as_view()),
     path('api/v1/drf-auth/', include('rest_framework.urls')),
 

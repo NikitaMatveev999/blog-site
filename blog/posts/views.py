@@ -15,11 +15,18 @@ class PostAPIView(generics.ListAPIView):
     serializer_class = PostSerializer
 
 
-def favourite_list(request):
-    user = request.user
-    favourite_posts = user.favourite.all()
-    context = {'favourite_posts': favourite_posts}
-    return render(request, 'posts/favourite.html', context)
+class FavouriteListView(ListView):
+    model = Post
+    template_name = 'posts/favourite.html'
+    context_object_name = 'favourite_posts'
+
+    def get_queryset(self):
+        return self.request.user.favourite.all()
+# def favourite_list(request):
+#     user = request.user
+#     favourite_posts = user.favourite.all()
+#     context = {'favourite_posts': favourite_posts}
+#     return render(request, 'posts/favourite.html', context)
 
 
 class AddLikeView(View):
@@ -33,13 +40,6 @@ class AddLikeView(View):
             post.likes.add(request.user)
 
         return HttpResponseRedirect(reverse('detail', args=[str(pk)]))
-# def add_like_view(request, pk):
-#     post = get_object_or_404(Post, id=request.POST.get('post_id'))
-#     if post.likes.filter(id=request.user.id).exists():
-#         post.likes.remove(request.user)
-#     else:
-#         post.likes.add(request.user)
-#     return HttpResponseRedirect(reverse('detail', args=[str(pk)]))
 
 
 class AddFavouriteView(View):
