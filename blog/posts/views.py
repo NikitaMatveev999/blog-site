@@ -3,7 +3,7 @@ from django.views import generic, View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .models import Post, Category
 from .forms import PostForm, SignUpForm
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from rest_framework import generics
@@ -57,6 +57,11 @@ class SearchResultsView(ListView):
             Q(body__icontains=query) | Q(title__icontains=query)
         )
         return find_posts
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
 
 
 class HomeView(ListView):
