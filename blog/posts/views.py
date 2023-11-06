@@ -23,6 +23,11 @@ class FavouriteListView(ListView):
     def get_queryset(self):
         return self.request.user.favourite.all()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
 
 class AddLikeView(View):
     def post(self, request, pk):
