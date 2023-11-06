@@ -23,11 +23,6 @@ class FavouriteListView(ListView):
     def get_queryset(self):
         return self.request.user.favourite.all()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
-        return context
-
 
 class AddLikeView(View):
     def post(self, request, pk):
@@ -63,23 +58,12 @@ class SearchResultsView(ListView):
         )
         return find_posts
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
-        return context
-
 
 class HomeView(ListView):
     paginate_by = 3
     model = Post
     template_name = 'posts/index.html'
     ordering = ['-date']
-
-    def get_context_data(self, **kwargs):
-        categories = Category.objects.all()
-        context = super(HomeView, self).get_context_data()
-        context['categories'] = categories
-        return context
 
 
 class CategoryView(ListView):
@@ -90,11 +74,6 @@ class CategoryView(ListView):
     def get_queryset(self):
         cat_id = self.kwargs['cat_id']
         return Post.objects.filter(category_id=cat_id)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
-        return context
 
 
 class PostDetailView(DetailView):
