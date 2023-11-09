@@ -15,7 +15,6 @@
         {{ post.body }}
     </div>
 <br><br>
-<a href="{% url 'home' %}" class="btn btn-primary">Back to home page</a>
 <br><br>
 <form action="{% url 'like_post' post.pk %}" method="post">
       {% csrf_token %}
@@ -53,6 +52,8 @@
     {% endif %}
     {% endif %}
 </form>
+    <br>
+    <a href="{% url 'home' %}" class="btn btn-primary">Back to home page</a>
     <h1> Total likes: {{ total_likes }}</h1>
 </div>
 <br>
