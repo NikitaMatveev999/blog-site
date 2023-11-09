@@ -28,7 +28,9 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             {% for category in categories %}
             <li><a class="dropdown-item" href="{% url 'category' category.pk %}">{{ category.name }}</a></li>
+            {% if not forloop.last %}
             <li><hr class="dropdown-divider"></li>
+            {% endif %}
             {% endfor %}
           </ul>
         {% if user.is_authenticated %}
