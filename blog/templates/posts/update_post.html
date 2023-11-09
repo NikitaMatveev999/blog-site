@@ -8,6 +8,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button class="btn btn-secondary">Post</button>
+            <a href="{% url 'detail' post.id %}" class="btn btn-primary">Back to Post</a>
         </div>
     {% endif %}
 {% endif %}
