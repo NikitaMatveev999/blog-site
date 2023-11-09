@@ -1,7 +1,7 @@
 {% extends 'posts/base.html' %}
 
 {% block content %}
-<div class="mx-auto" style="width: 300px;">
+<div class="mx-auto" style="width: 300px; margin: 0 auto;">
 <h1>{{ post.title }}<br><br>
     author: {{ post.author }}</h1>
     {% if user.is_authenticated %}
@@ -11,10 +11,11 @@
         {% endif %}
     {% endif %}
 
-    {{ post.body }}
+    <div style="word-wrap: break-word;">
+        {{ post.body }}
+    </div>
 <br><br>
 <a href="{% url 'home' %}" class="btn btn-primary">Back to home page</a>
-    </div>
 <br><br>
 <form action="{% url 'like_post' post.pk %}" method="post">
       {% csrf_token %}
@@ -26,6 +27,7 @@
     <i class="fa fa-thumbs-down"></i> Unlike
   </button>
 </form>
+    <br>
     {% else %}
     <form method="POST" action="{% url 'like_post' post.id %}">
   {% csrf_token %}
@@ -50,6 +52,7 @@
     {% endif %}
     {% endif %}
 </form>
+    <h1> Total likes: {{ total_likes }}</h1>
+</div>
 <br>
-<h1> Total likes: {{ total_likes }}</h1>
 {% endblock %}
