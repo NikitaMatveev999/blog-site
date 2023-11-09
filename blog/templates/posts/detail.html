@@ -20,9 +20,19 @@
       {% csrf_token %}
     {% if user.is_authenticated%}
     {% if liked %}
-<button type="submit", name="post_id", value="{{ post.id }}">Unlike</button>
+    <form method="POST" action="{% url 'like_post' post.id %}">
+  {% csrf_token %}
+  <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary">
+    <i class="fa fa-thumbs-down"></i> Unlike
+  </button>
+</form>
     {% else %}
-    <button type="submit", name="post_id", value="{{ post.id }}">Like</button>
+    <form method="POST" action="{% url 'like_post' post.id %}">
+  {% csrf_token %}
+  <button type="submit" name="post_id", value="{{ post.id }}" class="btn btn-primary">
+    <i class="fa fa-thumbs-o-up"></i> Like
+  </button>
+</form>
     {% endif %}
     {% endif %}
 </form>
@@ -30,9 +40,13 @@
       {% csrf_token %}
     {% if user.is_authenticated%}
     {% if favourite %}
-<button type="submit", name="post_id", value="{{ post.id }}">Remove from favourite</button>
+    <button type="submit" name="post_id", value="{{ post.id }}" class="btn btn-primary">
+    <i class="fa fa-star-o"></i> Remove from favourite
+  </button>
     {% else %}
-    <button type="submit", name="post_id", value="{{ post.id }}">Add to favorite</button>
+    <button type="submit" name="post_id", value="{{ post.id }}" class="btn btn-primary">
+    <i class="fa fa-star"></i> Add to favorite
+  </button>
     {% endif %}
     {% endif %}
 </form>
