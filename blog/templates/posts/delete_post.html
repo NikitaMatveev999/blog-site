@@ -3,10 +3,13 @@
 {% block content %}
 {% if user.is_authenticated %}
     {% if user.id == post.author.id %}
-      <div class="mb-3">
+<div class="mx-auto" style="width: 300px; margin: 0 auto;">
       <form method="POST">
-      {% csrf_token %}
-      <button class="btn btn-secondary">Delete post</button>
+      <a href="{% url 'detail' post.id %}" class="btn btn-primary">Back to Post</a>
+          <br>
+          <br>
+          {% csrf_token %}
+      <button class="btn btn-danger">Delete post</button>
       </div>
     {% endif %}
 {% endif %}
