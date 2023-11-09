@@ -67,6 +67,7 @@ class HomeView(ListView):
 
 
 class CategoryView(ListView):
+    paginate_by = 3
     model = Post
     template_name = 'posts/categories.html'
     context_object_name = 'posts'
