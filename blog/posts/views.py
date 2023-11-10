@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy, reverse
 from django.views import generic, View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
-from .models import Post, Category
+from .models import Post, Category, Comment
 from .forms import PostForm, SignUpForm
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -121,3 +121,16 @@ class RegistrationView(generic.CreateView):
     form_class = SignUpForm
     template_name = 'registration/registration.html'
     success_url = 'login'
+
+
+class CommentCreateView(CreateView):
+    model = Comment
+    fields = ['text']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.post = Post.objects.get(pk=self.kwargs['pk'])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('post-detail', kwargs={'pk': self.kwargs['pk']})

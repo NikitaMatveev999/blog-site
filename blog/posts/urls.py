@@ -1,6 +1,7 @@
 from django.urls import path, include
 from .views import HomeView, PostDetailView, PostCreateView, PostDeleteView, PostUpdateView, \
-    SearchResultsView, FavouriteListView, PostAPIView, RegistrationView, AddFavouriteView, AddLikeView, CategoryView
+    SearchResultsView, FavouriteListView, PostAPIView, RegistrationView, AddFavouriteView, AddLikeView, CategoryView, \
+    CommentCreateView
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -14,6 +15,7 @@ urlpatterns = [
     path('search/', SearchResultsView.as_view(), name='search_results'),
     path('category/<str:cat_id>/', CategoryView.as_view(), name='category'),
     path('favourite/', FavouriteListView.as_view(), name='favourite_list'),
+    path('post/<int:pk>/comment/', CommentCreateView.as_view(), name='comment_create'),
     path('api/v1/postlist/', PostAPIView.as_view()),
     path('api/v1/drf-auth/', include('rest_framework.urls')),
 
