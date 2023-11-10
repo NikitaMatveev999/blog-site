@@ -131,8 +131,14 @@ class CommentCreateView(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.post = get_object_or_404(Post, pk=self.kwargs['pk'])
-        if 'parent_id' in self.kwargs:
-            form.instance.parent = get_object_or_404(Comment, pk=self.kwargs['parent_id'])
+        # if 'parent_id' in self.request.GET:
+        #     form.instance.parent = get_object_or_404(Comment, pk=self.kwargs['parent_id'])
+        # return super().form_valid(form)
+        if 'parent_id' in self.request.GET:
+            parent_id = self.request.GET['parent_id']
+            form.instance.parent = get_object_or_404(Comment, pk=parent_id)
+        else:
+            form.instance.parent = None
         return super().form_valid(form)
 
     def get_success_url(self):

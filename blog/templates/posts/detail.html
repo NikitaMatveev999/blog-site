@@ -71,8 +71,10 @@
     <form action="{% url 'comment_create' post.pk %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" name="post_id", value="{{ post.id }}" class="btn btn-primary">Reply</button>
+        <input type="hidden" name="parent_id" value="{{ comment.id }}">
+    <a href="{% url 'comment_create' post.pk %}?parent_id={{ comment.id }}">Reply</a>
 </form>
+            <br>
             {% for reply in comment.replies.all %}
                 <div class="reply-frame" style="margin-left: 20px; border: 1px solid #000; padding: 10px;">
                     <p>Replied by: {{ reply.author.username }}</p>
