@@ -56,8 +56,9 @@
     <form action="{% url 'comment_create' post.pk %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Добавить комментарий</button>
+    <button type="submit" name="post_id", value="{{ post.id }}" class="btn btn-primary">Add comment</button>
 </form>
+    <br>
     {% for comment in post.comments.all %}
     {% if not comment.parent %}
     {% if comment.is_published %}
