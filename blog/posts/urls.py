@@ -15,7 +15,7 @@ urlpatterns = [
     path('search/', SearchResultsView.as_view(), name='search_results'),
     path('category/<str:cat_id>/', CategoryView.as_view(), name='category'),
     path('favourite/', FavouriteListView.as_view(), name='favourite_list'),
-    path('post/<int:pk>/comment/', CommentCreateView.as_view(), name='comment_create'),
+    path('post/<int:pk>/comment_create/', CommentCreateView.as_view(), name='comment_create'),
     path('api/v1/postlist/', PostAPIView.as_view()),
     path('api/v1/drf-auth/', include('rest_framework.urls')),
 

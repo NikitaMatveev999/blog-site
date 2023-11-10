@@ -53,6 +53,11 @@
     {% endif %}
 </form>
     <br>
+    <form action="{% url 'comment_create' post.pk %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Добавить комментарий</button>
+</form>
     {% for comment in post.comments.all %}
     {% if not comment.parent %}
     {% if comment.is_published %}

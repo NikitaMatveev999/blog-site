@@ -7,7 +7,7 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn btn-secondary">Post</button>
-</div>
+  </div>
 {% else %}
 <a href="{% url 'login' %}">Login</a>
 {% endif %}
