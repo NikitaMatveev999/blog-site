@@ -130,10 +130,10 @@ class CommentCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        form.instance.post = Post.objects.get(pk=self.kwargs['pk'])
+        form.instance.post = get_object_or_404(Post, pk=self.kwargs['pk'])
         if 'parent_id' in self.kwargs:
-            form.instance.parent = Comment.objects.get(pk=self.kwargs['parent_id'])
+            form.instance.parent = get_object_or_404(Comment, pk=self.kwargs['parent_id'])
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('detail', kwargs={'pk': self.kwargs['pk']})
+        return reverse_lazy('detail', kwargs={'pk': self.kwargs['pk']})
