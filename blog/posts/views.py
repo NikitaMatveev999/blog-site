@@ -136,7 +136,6 @@ class RegistrationView(generic.CreateView):
                 return self.form_invalid(form)
         except Exception as e:
             messages.error(self.request, 'Ошибка регистрации. Попробуйте еще раз.')
-            return self.form_invalid(form)
         return valid
 
 
