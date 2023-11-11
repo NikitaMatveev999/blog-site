@@ -1,11 +1,10 @@
 from django.urls import path, include
 from .views import HomeView, PostDetailView, PostCreateView, PostDeleteView, PostUpdateView, \
-    SearchResultsView, FavouriteListView, PostAPIView, RegistrationView, AddFavouriteView, AddLikeView, CategoryView, \
+    SearchResultsView, FavouriteListView, PostAPIView, AddFavouriteView, AddLikeView, CategoryView, \
     CommentCreateView
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
-    path('register', RegistrationView.as_view(), name='register'),
     path('post/<int:pk>/', PostDetailView.as_view(), name='detail'),
     path('add_post/', PostCreateView.as_view(), name='add_post'),
     path('post/update_post/<int:pk>', PostUpdateView.as_view(), name='update_post'),
