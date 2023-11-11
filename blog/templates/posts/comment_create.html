@@ -1,10 +1,12 @@
 {% extends 'posts/base.html' %}
 {% block content %}
 {% if user.is_authenticated %}
+<div class="mx-auto" style="width: 300px; margin: 0 auto;">
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn btn-secondary">Post</button>
 </form>
+</div>
 {% endif %}
 {% endblock %}
