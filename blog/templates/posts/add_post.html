@@ -2,7 +2,7 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-  <div class="mb-3">
+  <div class="mx-auto" style="width: 300px; margin: 0 auto;">
     <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
