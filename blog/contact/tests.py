@@ -1,5 +1,4 @@
 from django.test import TestCase, Client
-from unittest.mock import patch
 from django.urls import reverse
 from .models import Contact
 from .forms import ContactForm
