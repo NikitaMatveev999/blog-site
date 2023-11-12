@@ -1,14 +1,13 @@
 {% extends 'posts/base.html' %}
 
 {% block content %}
-    <div class="mb-3">
+    <div class="mx-auto" style="width: 300px; margin: 0 auto;">
     <form method="POST">
     {% csrf_token %}
     {{ form.as_p}}
     <button type="submit">Register</button>
     </form>
-    </div>
-<br>
 <h1>Already registred?</h1>
 <p><a href="{% url 'login' %}">Login</a></p>
+    </div>
 {% endblock %}
