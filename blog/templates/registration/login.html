@@ -1,6 +1,7 @@
 {% extends 'posts/base.html' %}
 
 {% block content %}
+<div class="mx-auto" style="width: 300px; margin: 0 auto;">
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
@@ -8,5 +9,6 @@
 </form><br>
 <p><a href="{% url 'password_reset' %}">Forgotten your password?</a></p>
 <br>
-<a href="{% url 'social:begin' "github" %}">Login with Github</a>
+<a href="{% url 'social:begin' 'github' %}">Login with Github</a>
+</div>
 {% endblock %}
