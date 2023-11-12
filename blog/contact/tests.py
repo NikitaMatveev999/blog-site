@@ -21,7 +21,7 @@ class ContactCreateViewTest(TestCase):
         }
         response = self.client.post(self.url, data)
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, 'home')
+        self.assertRedirects(response, '/')
 
         contact = Contact.objects.first()
         self.assertEqual(contact.name, 'Test User')
