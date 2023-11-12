@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 import os
 from dotenv import load_dotenv, find_dotenv
@@ -140,6 +141,10 @@ EMAIL_HOST_PASSWORD = os.getenv('HOST_PASSWORD')
 
 
 CELERY_BROKER_URL = 'redis://redis:6379'
+if 'test' in sys.argv:
+    CELERY_BROKER_URL = 'memory://'
+    CELERY_TASK_ALWAYS_EAGER = True
+    CELERY_TASK_EAGER_PROPAGATES = True
 
 
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
