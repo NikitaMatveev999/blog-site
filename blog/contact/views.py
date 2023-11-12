@@ -7,7 +7,7 @@ from .tasks import send_email
 class ContactCreateView(CreateView):
     model = Contact
     form_class = ContactForm
-    success_url = '/'
+    success_url = 'home'
     template_name = 'contact/contact.html'
 
     def form_valid(self, form):
