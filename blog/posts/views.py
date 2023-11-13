@@ -69,6 +69,7 @@ class HomeView(ListView):
     ordering = ['-date']
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class CategoryView(ListView):
     paginate_by = 3
     model = Post
