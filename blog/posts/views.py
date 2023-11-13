@@ -12,12 +12,6 @@ from rest_framework import generics
 from .serializers import PostSerializer
 
 
-class CachedTemplateView(TemplateView):
-    @method_decorator(cache_page(60 * 15))
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
-
-
 class PostAPIView(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -67,6 +61,7 @@ class SearchResultsView(ListView):
         return find_posts
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class HomeView(ListView):
     paginate_by = 3
     model = Post
