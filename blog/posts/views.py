@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy, reverse
 from django.views import View
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .models import Post, Category, Comment
 from .forms import PostForm, CommentForm
@@ -15,6 +16,7 @@ class PostAPIView(generics.ListAPIView):
     serializer_class = PostSerializer
 
 
+@cache_page(60 * 30)
 class FavouriteListView(ListView):
     model = Post
     template_name = 'posts/favourite.html'
