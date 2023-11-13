@@ -2,7 +2,7 @@ from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import cache_page
-from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .models import Post, Category, Comment
 from .forms import PostForm, CommentForm
 from django.shortcuts import get_object_or_404
