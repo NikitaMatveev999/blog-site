@@ -1,7 +1,8 @@
 from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import cache_page
-from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView
 from .models import Post, Category, Comment
 from .forms import PostForm, CommentForm
 from django.shortcuts import get_object_or_404
@@ -11,12 +12,17 @@ from rest_framework import generics
 from .serializers import PostSerializer
 
 
+class CachedTemplateView(TemplateView):
+    @method_decorator(cache_page(60 * 15))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+
 class PostAPIView(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
 
-@cache_page(60 * 30)
 class FavouriteListView(ListView):
     model = Post
     template_name = 'posts/favourite.html'
