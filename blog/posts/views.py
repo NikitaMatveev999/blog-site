@@ -89,7 +89,7 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data()
         post = self.object
-        comments = Comment.objects.filter(post=post, is_published=True).prefetch_related('author', 'replies__author')
+        comments = Comment.objects.filter(post=post, is_published=True).prefetch_related('replies__author').select_related('author')
         context['comments'] = comments
         total_likes = post.total_likes()
         liked = post.likes.filter(id=self.request.user.id).exists()
