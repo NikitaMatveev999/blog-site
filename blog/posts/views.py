@@ -81,7 +81,7 @@ class CategoryView(ListView):
         return Post.objects.filter(category_id=cat_id)
 
 
-# @method_decorator(cache_page(60 * 15), name='dispatch')
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class PostDetailView(DetailView):
     model = Post
     template_name = 'posts/detail.html'
