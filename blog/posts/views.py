@@ -86,14 +86,11 @@ class PostDetailView(DetailView):
     model = Post
     template_name = 'posts/detail.html'
 
-    # def get_queryset(self):
-    #     return Post.objects.select_related('author', 'category').prefetch_related('likes', 'favourite')
-
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data()
         post = self.object
-        comments = Comment.objects.filter(post=post).select_related('author').prefetch_related('replies__author')
-        # stuff = get_object_or_404(Post, id=self.kwargs['pk'])
+        comments = Comment.objects.filter(post=post, is_published=True).prefetch_related('author', 'replies__author')
+        context['comments'] = comments
         total_likes = post.total_likes()
         liked = post.likes.filter(id=self.request.user.id).exists()
         favourite_post = post.favourite.filter(id=self.request.user.id).exists()

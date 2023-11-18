@@ -59,7 +59,7 @@
     <button type="submit" name="post_id", value="{{ post.id }}" class="btn btn-primary">Add comment</button>
 </form>
     <br>
-    {% for comment in post.comments.all %}
+    {% for comment in comments %}
     {% if not comment.parent %}
     {% if comment.is_published %}
         <div style="border: 1px solid #000; padding: 10px; margin-bottom: 10px;">
