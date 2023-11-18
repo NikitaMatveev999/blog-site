@@ -81,7 +81,7 @@ class CategoryView(ListView):
         return Post.objects.filter(category_id=cat_id)
 
 
-@method_decorator(cache_page(60 * 15), name='dispatch')
+# @method_decorator(cache_page(60 * 15), name='dispatch')
 class PostDetailView(DetailView):
     model = Post
     template_name = 'posts/detail.html'
@@ -89,8 +89,8 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data()
         post = self.object
-        context['comments'] = Comment.objects.filter(post=post, is_published=True).\
-            select_related('replies__author').values('id', 'text', 'author__username', 'created_on')
+        context['comments'] = Comment.objects.filter(post=post, is_published=True)\
+            .select_related('author').prefetch_related('replies__author')
         context['total_likes'] = post.total_likes
         context['liked'] = post.likes.filter(id=self.request.user.id).exists()
         context['favourite'] = post.favourite.filter(id=self.request.user.id).exists()
