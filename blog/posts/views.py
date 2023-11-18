@@ -81,22 +81,25 @@ class CategoryView(ListView):
         return Post.objects.filter(category_id=cat_id)
 
 
-@method_decorator(cache_page(60 * 15), name='dispatch')
+# @method_decorator(cache_page(60 * 15), name='dispatch')
 class PostDetailView(DetailView):
     model = Post
     template_name = 'posts/detail.html'
 
+    # def get_queryset(self):
+    #     return Post.objects.select_related('author', 'category').prefetch_related('likes', 'favourite')
+
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data()
-        stuff = get_object_or_404(Post, id=self.kwargs['pk'])
-        total_likes = stuff.total_likes()
-        categories = Category.objects.all()
-        liked = stuff.likes.filter(id=self.request.user.id).exists()
-        favourite_post = stuff.favourite.filter(id=self.request.user.id).exists()
+        post = self.object
+        comments = Comment.objects.filter(post=post).select_related('author').prefetch_related('replies__author')
+        # stuff = get_object_or_404(Post, id=self.kwargs['pk'])
+        total_likes = post.total_likes()
+        liked = post.likes.filter(id=self.request.user.id).exists()
+        favourite_post = post.favourite.filter(id=self.request.user.id).exists()
         context['total_likes'] = total_likes
         context['liked'] = liked
         context['favourite'] = favourite_post
-        context['categories'] = categories
         return context
 
 

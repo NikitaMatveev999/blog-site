@@ -70,7 +70,7 @@
     <br>
     <form action="{% url 'comment_create' post.pk %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form.comment }}
         <input type="hidden" name="parent_id" value="{{ comment.id }}">
     <a href="{% url 'comment_create' post.pk %}?parent_id={{ comment.id }}" class="btn btn-primary">Reply</a>
 </form>
