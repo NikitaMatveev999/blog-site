@@ -21,3 +21,5 @@ services:
       - .:/app
     depends_on:
       - redis
+    environment:
+      - CELERY_BROKER_URL=redis://red-clcvtj7gsrdc73fhq2ng:6379
