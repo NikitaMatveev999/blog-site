@@ -9,7 +9,7 @@ services:
     build: .
     command: gunicorn blog.wsgi:application -b 0.0.0.0:8000
     volumes:
-      - gunicorn your_project_name.wsgi:application -b 0.0.0.0:8000
+      - gunicorn blog.wsgi:application -b 0.0.0.0:8000
     ports:
       - "8000:8000"
     depends_on:
