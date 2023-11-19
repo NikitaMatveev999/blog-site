@@ -141,7 +141,7 @@ EMAIL_HOST_USER = os.getenv('EMAIL')
 EMAIL_HOST_PASSWORD = os.getenv('HOST_PASSWORD')
 
 
-CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_BROKER_URL = 'redis://red-clcvtj7gsrdc73fhq2ng:6379'
 if 'test' in sys.argv:
     CELERY_BROKER_URL = 'memory://'
     CELERY_TASK_ALWAYS_EAGER = True
