@@ -16,7 +16,7 @@ services:
       - redis
   celery:
     build: .
-    command: celery -A blog worker -l info
+    command: celery -A blog worker -l info --concurrency 4
     volumes:
       - .:/app
     depends_on:

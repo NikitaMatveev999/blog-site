@@ -16,4 +16,4 @@ COPY . /app/
 RUN python manage.py collectstatic --noinput
 
 CMD gunicorn blog.wsgi:application -b 0.0.0.0:8000
-CMD celery -A blog worker -l info
+CMD celery -A blog worker -l info --concurrency 4
