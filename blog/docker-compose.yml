@@ -7,7 +7,7 @@ services:
       - "6379:6379"
   web:
     build: .
-    command: gunicorn blog.wsgi:application -b 0.0.0.0:8000
+    command: gunicorn blog.wsgi:application
     volumes:
       - .:/app
     ports:
