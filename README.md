@@ -1,7 +1,7 @@
 # blog-site
 Название проекта: Блог
 
-http://nikitamatveev.pythonanywhere.com/
+https://blog-h6ou.onrender.com/
 
 Описание проекта:
 
